@@ -1,5 +1,4 @@
 # Ignore task-manager folder
-task-manager/
 node_modules/
 results.xml
 results.html
