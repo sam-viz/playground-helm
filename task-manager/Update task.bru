@@ -1,0 +1,30 @@
+meta {
+  name: Update task
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3000/tasks/{{taskId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "title": "Updated Task",
+      "description": "This task has been updated."
+  }
+}
+
+tests {
+  test("should update a task", function () {
+      expect(res.getStatus()).to.equal(200);
+      expect(res.getBody().title).to.equal("Updated Task");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

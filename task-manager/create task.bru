@@ -1,0 +1,55 @@
+meta {
+  name: Create task
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/tasks
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "title": "{{title}}",
+      "description": "{{description}}"
+  }
+}
+
+script:pre-request {
+  // Generate a random first name
+  const title = bru.interpolate('{{$randomLoremWord}}');
+  const description = bru.interpolate('{{$randomLoremSentences}}');
+  
+  bru.setVar("title", title);
+  bru.setVar("description", description)
+}
+
+script:post-response {
+  const {id } = res.getBody();
+  bru.setVar("taskId", id);
+  
+}
+
+tests {
+  test("should have 201 status response", function () {
+      expect(res.getStatus()).to.equal(201);
+  });
+  
+  
+  test("should match what was created", function () {
+      const expectedDescription =bru.getVar("description");
+      const expectedTitle =bru.getVar("title");
+      const {id, title, description} = res.getBody();
+      expect(id).to.not.equal(undefined);
+      expect(title).to.equal(expectedTitle);  
+      expect(description).to.equal(expectedDescription);
+  });
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

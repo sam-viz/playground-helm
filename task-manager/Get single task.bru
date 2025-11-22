@@ -1,0 +1,29 @@
+meta {
+  name: Get single task
+  type: http
+  seq: 5
+}
+
+get {
+  url: http://localhost:3000/tasks/{{taskId}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("should get a single task", function () {
+    expect(res.getStatus()).to.equal(200);
+    const { id, title, description } = res.getBody();
+    
+    expect(id).to.not.equal(undefined);
+    const expectedDescription = bru.getVar("description");
+    const expectedTitle = bru.getVar("title");
+    expect(title).to.be.equal(expectedTitle);
+    expect(description).to.be.equal(expectedDescription);  
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

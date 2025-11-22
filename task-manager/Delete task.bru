@@ -1,0 +1,22 @@
+meta {
+  name: Delete task
+  type: http
+  seq: 7
+}
+
+delete {
+  url: http://localhost:3000/tasks/{{taskId}}
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("should delete a task", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

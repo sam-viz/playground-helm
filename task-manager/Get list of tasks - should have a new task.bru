@@ -1,0 +1,43 @@
+meta {
+  name: Get list of tasks - should have a new task
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:3000/tasks
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("should be able to get tasks", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+   
+  test("Should have a new task", function () {
+    
+    expect(res.getBody().length).to.eql(
+      bru.getVar("numberOfTasks") + 1
+    );
+    
+  });
+  test("Created task should be found", function() {
+    
+    const expectedDescription =bru.getVar("description");
+    const expectedId = bru.getVar("taskId");
+    const expectedTitle =bru.getVar("title");
+    
+    const task = res.getBody().find(task => task.id === expectedId);
+    
+    expect(task).to.not.eql(undefined);
+      
+    expect(task.title).to.eql(expectedTitle);
+    expect(task.description).to.eql(expectedDescription);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
