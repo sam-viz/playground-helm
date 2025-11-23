@@ -23,6 +23,3 @@ A simple Express.js application for managing tasks (Create, Read, Update, Delete
 	npm start
 	```
 3. The API will run on `http://localhost:3000` by default.
-
-## Next Steps
-- You can package this app with Docker and Helm as needed.
