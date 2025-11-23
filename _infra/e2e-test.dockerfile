@@ -1,16 +1,17 @@
 # Use an official Node.js runtime as a parent image
 FROM node:22.21-alpine
 
+RUN npm install -g @usebruno/cli@2.14.2
+
+RUN apk add --no-cache ca-certificates
 # Set the working directory in the container
 WORKDIR /app
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
-RUN npm config set strict-ssl false
-# Install dependencies
-RUN npm install
-# Copy the rest of the application code
-COPY src ./src
-COPY task-manager ./task-manager
 
-# Define the command to run the app
-CMD ["npm", "run", "e2e:test"]
+COPY task-manager ./task-manager
+WORKDIR /app/task-manager
+
+# Set default environment variable (can be overridden at runtime)
+ENV BRUNO_ENV=docker
+
+# Inject env variable into Bruno run
+CMD ["sh", "-c", "bru run --env $BRUNO_ENV"]
