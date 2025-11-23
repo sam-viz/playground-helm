@@ -95,6 +95,16 @@ readinessProbe:
     path: /tasks
     port: http
 
+# Configuration for the Helm test hooks
+test:
+  image:
+    repository: task-manager-e2e
+    tag: latest
+    pullPolicy: Never
+  # Set to true to use Service Environment Variables (e.g. for Rancher Desktop DNS issues)
+  # Set to false to use standard K8s DNS (http://service-name:port)
+  useServiceEnvVars: true
+
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: false

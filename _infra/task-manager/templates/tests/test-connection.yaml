@@ -10,16 +10,22 @@ metadata:
 spec:
   containers:
     - name: my-api-tests
-      image: task-manager-e2e:latest
-      imagePullPolicy: Never
+      image: "{{ .Values.test.image.repository }}:{{ .Values.test.image.tag }}"
+      imagePullPolicy: {{ .Values.test.image.pullPolicy }}
       command: ["/bin/sh", "-c"]
       args:
         - |
+          {{- if .Values.test.useServiceEnvVars }}
           # By pass DNS resolution issue on Rancher desktop by using Kubernetes service environment variables
           export TARGET_HOST=$MANAGER_DEPLOY_TASK_MANAGER_SERVICE_HOST
           export TARGET_PORT=$MANAGER_DEPLOY_TASK_MANAGER_SERVICE_PORT
           
           export FULL_URL="http://$TARGET_HOST:$TARGET_PORT"
+          {{- else }}
+          # Standard K8s DNS resolution
+          export FULL_URL="http://{{ include "task-manager.fullname" . }}:{{ .Values.service.port }}"
+          {{- end }}
+
           # Run Bruno using the constructed URL
           bru run --env default --env-var base_url=$FULL_URL
   restartPolicy: Never
