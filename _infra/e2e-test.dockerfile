@@ -1,14 +1,15 @@
 # Use an official Node.js runtime as a parent image
 FROM node:22.21-alpine
 
-RUN npm install -g @usebruno/cli@2.14.2
+RUN npm install -g @usebruno/cli@2.14.2 && npm cache clean --force
 
-RUN apk add --no-cache ca-certificates
 # Set the working directory in the container
 WORKDIR /app
 
 COPY task-manager ./task-manager
 WORKDIR /app/task-manager
+
+USER node
 
 # Set default environment variable (can be overridden at runtime)
 ENV BRUNO_ENV=default
