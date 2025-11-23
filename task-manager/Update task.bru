@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: http://localhost:3000/tasks/{{taskId}}
+  url: {{base_url}}/tasks/{{taskId}}
   body: json
   auth: inherit
 }
