@@ -12,6 +12,7 @@ WORKDIR /app/task-manager
 
 # Set default environment variable (can be overridden at runtime)
 ENV BRUNO_ENV=docker
+ENV BASE_URL=http://host.docker.internal:3000
 
 # Inject env variable into Bruno run
-CMD ["sh", "-c", "bru run --env $BRUNO_ENV"]
+CMD ["sh", "-c", "bru run --env $BRUNO_ENV --env-var base_url=$BASE_URL"]
