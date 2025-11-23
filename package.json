@@ -4,7 +4,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "e2e:test": "cd task-manager && bru run --reporter-junit ../results.xml  --reporter-html ../results.html"
+    "e2e:test": "cd task-manager && bru run --reporter-junit ../results.xml  --reporter-html ../results.html --env default"
   },
   "dependencies": {
     "express": "^4.18.2"
