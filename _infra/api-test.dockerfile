@@ -13,7 +13,7 @@ USER node
 
 # Set default environment variable (can be overridden at runtime)
 ENV BRUNO_ENV=default
-ENV BASE_URL=http://host.docker.internal:3000
+ENV BASE_URL=""
 ENV PORT=3000
 
 # Inject env variable into Bruno run

@@ -98,7 +98,7 @@ readinessProbe:
 # Configuration for the Helm test hooks
 test:
   image:
-    repository: task-manager-e2e
+    repository: task-manager-api-test
     tag: latest
     pullPolicy: Never
   # Set to true to use Service Environment Variables (e.g. for Rancher Desktop DNS issues)
