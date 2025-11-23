@@ -10,8 +10,8 @@ echo "📦 Building App Image (task-manager:$TAG)..."
 docker build -t task-manager:$TAG -f _infra/dockerfile .
 
 # 3. Build the Test Runner Image
-echo "📦 Building Test Runner Image (task-manager-e2e:$TAG)..."
-docker build -t task-manager-e2e:$TAG -f _infra/e2e-test.dockerfile .
+echo "📦 Building Test Runner Image (task-manager-api-test:$TAG)..."
+docker build -t task-manager-api-test:$TAG -f _infra/api-test.dockerfile .
 
 # 4. Upgrade Helm Release
 # We use --set to dynamically override the values.yaml without modifying the file on disk.
