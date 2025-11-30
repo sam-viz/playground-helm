@@ -18,3 +18,8 @@ spec:
     createNamespace: true
   interval: 1m0s
   targetNamespace: task-manager
+  values:
+    image:
+      repository: ghcr.io/sam-viz/playground-helm/task-manager
+      # {"$imagepolicy": "flux-system:task-manager"}
+      tag: sha-06c9bf4 

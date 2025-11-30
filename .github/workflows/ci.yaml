@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'clusters/**' # Avoid running the CI on loops when Flux updates the cluster configs
 jobs:
   ci:
     runs-on: ubuntu-latest
