@@ -16,3 +16,9 @@ spec:
     createNamespace: true
   interval: 1m0s
   targetNamespace: task-manager
+  values:
+    image:
+      tag: "9b449b3"
+    test:
+      image:
+        tag: "9b449b3"
