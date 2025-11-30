@@ -13,6 +13,9 @@ docker build -t task-manager:$TAG -f _infra/dockerfile .
 echo "📦 Building Test Runner Image (task-manager-api-test:$TAG)..."
 docker build -t task-manager-api-test:$TAG -f _infra/api-test.dockerfile .
 
+# 4. Update the HelmRelease Manifest
+# We overwrite the file to inject the new image tags into the 'values' section.
+echo "📝 Updating HelmRelease manifest..."
 cat > clusters/staging/task-manager-release.yaml <<YAML
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
