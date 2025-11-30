@@ -18,7 +18,7 @@ spec:
   targetNamespace: task-manager
   values:
     image:
-      tag: "9b449b3"
+      tag: "15eda30"
     test:
       image:
-        tag: "9b449b3"
+        tag: "15eda30"
