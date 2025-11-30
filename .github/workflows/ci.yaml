@@ -48,12 +48,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Generate timestamp
+        id: timestamp
+        run: echo "ts=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for App
         id: meta-app
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}/task-manager
           tags: |
+            type=raw,value=ts-${{ steps.timestamp.outputs.ts }}
             type=sha
             type=raw,value=latest
 
@@ -61,10 +66,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./_infra/dockerfile
-          push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
-          labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Extract metadata (tags, labels) for Test Runner
         id: meta-test
@@ -72,6 +73,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}/task-manager-api-test
           tags: |
+            type=raw,value=ts-${{ steps.timestamp.outputs.ts }}
             type=sha
             type=raw,value=latest
 
