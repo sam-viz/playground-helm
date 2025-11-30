@@ -68,6 +68,10 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          file: ./_infra/Dockerfile
+          push: true
+          tags: ${{ steps.meta-app.outputs.tags }}
+          labels: ${{ steps.meta-app.outputs.labels }}
 
       - name: Extract metadata (tags, labels) for Test Runner
         id: meta-test
