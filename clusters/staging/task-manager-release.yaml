@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -21,4 +20,4 @@ spec:
   values:
     image:
       repository: ghcr.io/sam-viz/playground-helm/task-manager
-      tag: sha-06c9bf4 # {"$imagepolicy": "flux-system:task-manager"} 
+      tag: ghcr.io/sam-viz/playground-helm/task-manager:ts-20251130-143523 # {"$imagepolicy": "flux-system:task-manager"} 
