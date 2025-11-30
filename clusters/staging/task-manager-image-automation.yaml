@@ -9,6 +9,15 @@ spec:
   interval: 1m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: task-manager-api-test
+  namespace: flux-system
+spec:
+  image: ghcr.io/sam-viz/playground-helm/task-manager-api-test
+  interval: 1m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
   name: task-manager
@@ -16,6 +25,20 @@ metadata:
 spec:
   imageRepositoryRef:
     name: task-manager
+  filterTags:
+    pattern: '^ts-[0-9]+-[0-9]+'
+  policy:
+    alphabetical:
+      order: asc
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: task-manager-api-test
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: task-manager-api-test
   filterTags:
     pattern: '^ts-[0-9]+-[0-9]+'
   policy:

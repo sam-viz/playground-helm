@@ -20,4 +20,8 @@ spec:
   values:
     image:
       repository: ghcr.io/sam-viz/playground-helm/task-manager
-      tag: ts-20251130-143523 # {"$imagepolicy": "flux-system:task-manager:tag"} 
+      tag: ts-20251130-143523 # {"$imagepolicy": "flux-system:task-manager:tag"}
+    test:
+      image:
+        repository: ghcr.io/sam-viz/playground-helm/task-manager-api-test
+        tag: sha-06c9bf4 # {"$imagepolicy": "flux-system:task-manager-api-test:tag"} 
