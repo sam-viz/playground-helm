@@ -13,14 +13,35 @@ docker build -t task-manager:$TAG -f _infra/dockerfile .
 echo "📦 Building Test Runner Image (task-manager-api-test:$TAG)..."
 docker build -t task-manager-api-test:$TAG -f _infra/api-test.dockerfile .
 
-# 4. Upgrade Helm Release
-# We use --set to dynamically override the values.yaml without modifying the file on disk.
-# This keeps your git working tree clean while achieving the same result.
-echo "☸️  Upgrading Helm Release..."
-helm upgrade --install manager-deploy ./_infra/task-manager \
-  --namespace task-manager \
-  --set image.tag=$TAG \
-  --set test.image.tag=$TAG
+cat > clusters/staging/task-manager-release.yaml <<YAML
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: task-manager
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: ./_infra/task-manager
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+  install:
+    createNamespace: true
+  interval: 1m0s
+  targetNamespace: task-manager
+  values:
+    image:
+      tag: "$TAG"
+    test:
+      image:
+        tag: "$TAG"
+YAML
 
-echo "✅ Deployment Complete! Verifying pods..."
-kubectl get pods -n task-manager
+# 5. Commit and Push to Git
+echo "Cc Committing and Pushing changes..."
+git add clusters/staging/task-manager-release.yaml
+git commit -m "chore(release): update task-manager to version $TAG"
+git push origin main
