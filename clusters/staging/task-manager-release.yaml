@@ -5,6 +5,8 @@ metadata:
   name: task-manager
   namespace: flux-system
 spec:
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: ./_infra/task-manager
@@ -12,8 +14,6 @@ spec:
       sourceRef:
         kind: GitRepository
         name: flux-system
-      driftDetection:
-        enabled: true
   install:
     createNamespace: true
   interval: 1m0s
