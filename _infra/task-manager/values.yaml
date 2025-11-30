@@ -7,11 +7,22 @@ replicaCount: 1
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
-  repository: task-manager
+  repository: ghcr.io/sam-viz/playground-helm/task-manager
   # This sets the pull policy for images.
-  pullPolicy: Never
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: sha-06c9bf4
+
+
+# Configuration for the Helm test hooks
+test:
+  image:
+    repository: ghcr.io/sam-viz/playground-helm/task-manager-api-test
+    tag: sha-06c9bf4
+    pullPolicy: IfNotPresent
+  # Set to true to use Service Environment Variables (e.g. for Rancher Desktop DNS issues)
+  # Set to false to use standard K8s DNS (http://service-name:port)
+  useServiceEnvVars: true
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
@@ -94,16 +105,6 @@ readinessProbe:
   httpGet:
     path: /tasks
     port: http
-
-# Configuration for the Helm test hooks
-test:
-  image:
-    repository: task-manager-api-test
-    tag: latest
-    pullPolicy: Never
-  # Set to true to use Service Environment Variables (e.g. for Rancher Desktop DNS issues)
-  # Set to false to use standard K8s DNS (http://service-name:port)
-  useServiceEnvVars: true
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
